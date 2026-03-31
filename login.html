@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillSync AI</title>
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- CSS -->
+<link rel="stylesheet" href="style.css">
+<style>
+body {
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.stat-card, .feature-title {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: 0.5s;
+}
+
+</style>
+</head>
+<body>
+<!-- Navbar -->
+
+<nav class="navbar navbar-expand-lg navbar-light px-5">
+<a class="navbar-brand fw-bold" href="login.html">✨SkillSync AI</a>
+<div class="ms-auto d-flex align-items-center">
+<a href="loginpage.html" class="me-3 login-link">Login</a>
+<button class="btn get-started-btn"><a href="loginpage.html">Get Started</a></button>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="hero-section text-center">
+
+<div class="badge-box">
+⚡ AI-Powered Skill Analysis
+</div>
+<h1 class="hero-title">
+Bridge Your <span class="gradient-text">Skill Gap</span> with AI
+</h1>
+<p class="hero-description" style="margin-top: 3% ;margin-bottom: 3%;" >
+Discover the exact skills you need for your dream job.
+Get a personalized roadmap and course recommendations
+powered by intelligent analysis.
+</p>
+</section>
+<!-- Action Buttons -->
+<section class="text-center action-section">
+<div class="container">
+<div class="mb-5 d-flex justify-content-center align-items-center gap-3">
+
+<button class="btn analyze-btn me-3" onclick="analyzeSkills()"> <a href="loginpage.html">🧠 Analyze My Skills →</a>
+
+</button>
+
+<button class="btn learn-btn"><a href="learnmore.html"> Learn More</a></button>
+
+</div>
+
+
+
+<!-- Stats Cards -->
+
+<div class="row justify-content-center g-4 stats-section">
+
+<div class="col-md-2">
+<div class="stat-card">
+<h2>50+</h2>
+<p>Job Roles </p>
+</div>
+</div>
+
+<div class="col-md-2">
+<div class="stat-card">
+<h2>200+</h2>
+<p>Skills Tracked</p>
+</div>
+</div>
+
+<div class="col-md-2">
+<div class="stat-card">
+<h2>10K+</h2>
+<p>Students Helped</p>
+</div>
+</div>
+
+<div class="col-md-2">
+<div class="stat-card">
+<h2>95%</h2>
+<p>Accuracy </p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- Feature Section -->
+
+<section class="feature-section text-center">
+
+<div class="container">
+
+<h2 class="feature-title" style="margin-top:5%">
+Everything you need to <span class="gradient-text">level up</span>
+</h2>
+
+<p class="feature-desc" style="margin-bottom:5%">
+Our AI-powered platform provides comprehensive tools to identify, plan,
+and close your skill gaps.
+</p>
+</div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section" style= "padding :60px">
+  <div class="container text-center">
+
+    <h1 class="cta-title">Ready to close your skill gap?</h1>
+
+    <p class="cta-text">
+      Join thousands of students who have already accelerated their
+      career journey with SkillSync AI.
+    </p>
+
+    <button class="btn cta-btn"><a href="loginpage.html">Get Started Free</a>
+      <span class="arrow">→</span>
+    </button>
+
+  </div>
+</section>
+<!-- Footer Section -->
+<footer class="footer-section">
+  <div class="container footer-container">
+
+    <div class="footer-left">
+      <span class="logo-icon">✦</span>
+      <span class="logo-text">SkillSync AI</span>
+    </div>
+
+    <div class="footer-center">
+      <b>Future Scope:</b>
+      Resume Parser · AI Mock Interviews · Company-Specific Tracks · Peer Collaboration
+    </div>
+
+    <div class="footer-right">
+      © 2026 SkillSync AI. All rights reserved.
+    </div>
+
+  </div>
+</footer>
+<script>
+const elements = document.querySelectorAll(".stat-card, .feature-title");
+
+window.addEventListener("scroll", () => {
+  elements.forEach(el => {
+    const pos = el.getBoundingClientRect().top;
+    if (pos < window.innerHeight - 100) {
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+    }
+  });
+});
+</script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- JS -->
+<script src="script.js"></script>
+</body>
+</html>
