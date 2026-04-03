@@ -92,58 +92,58 @@ const progressBar = document.getElementById("progressBar");
 const qCount = document.getElementById("qCount");
 const nextBtn = document.getElementById("nextBtn");
 
-// 🔥 REAL-TIME LISTENER
-db.collection("questions").onSnapshot(snapshot => {
-  questions = snapshot.docs.map(doc => doc.data());
-  showQuestion();
-});
+// // 🔥 REAL-TIME LISTENER
+// db.collection("questions").onSnapshot(snapshot => {
+//   questions = snapshot.docs.map(doc => doc.data());
+//   showQuestion();
+// });
 
-function showQuestion() {
-  let q = questions[current];
+// function showQuestion() {
+//   let q = questions[current];
 
-  if (!q) return;
+//   if (!q) return;
 
-  qCount.innerText = `Question ${current + 1} of ${questions.length}`;
-  questionEl.innerText = q.question;
+//   qCount.innerText = `Question ${current + 1} of ${questions.length}`;
+//   questionEl.innerText = q.question;
 
-  optionsEl.innerHTML = "";
+//   optionsEl.innerHTML = "";
 
-  q.options.forEach(opt => {
-    let div = document.createElement("div");
-    div.className = "option";
-    div.innerText = opt;
+//   q.options.forEach(opt => {
+//     let div = document.createElement("div");
+//     div.className = "option";
+//     div.innerText = opt;
 
-    div.onclick = () => {
-      document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
-      div.classList.add("selected");
-      answers[current] = opt;
-    };
+//     div.onclick = () => {
+//       document.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
+//       div.classList.add("selected");
+//       answers[current] = opt;
+//     };
 
-    optionsEl.appendChild(div);
-  });
+//     optionsEl.appendChild(div);
+//   });
 
-  updateProgress();
-}
+//   updateProgress();
+// }
 
-nextBtn.onclick = () => {
-  if (!answers[current]) {
-    alert("Select an option!");
-    return;
-  }
+// nextBtn.onclick = () => {
+//   if (!answers[current]) {
+//     alert("Select an option!");
+//     return;
+//   }
 
-  current++;
+//   current++;
 
-  if (current < questions.length) {
-    showQuestion();
-  } else {
-    submitData();
-  }
-};
+//   if (current < questions.length) {
+//     showQuestion();
+//   } else {
+//     submitData();
+//   }
+// };
 
-function updateProgress() {
-  let percent = (current / questions.length) * 100;
-  progressBar.style.width = percent + "%";
-}
+// function updateProgress() {
+//   let percent = (current / questions.length) * 100;
+//   progressBar.style.width = percent + "%";
+// }
 
 // 🔥 SAVE TO FIREBASE
 function submitData() {

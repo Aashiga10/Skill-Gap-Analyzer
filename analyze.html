@@ -89,7 +89,9 @@
     </div>
 
     <button class="main-analyze-btn">
-      <span>✨</span> <a href="analyze.html" style="text-decoration: none; color: aliceblue;">Analyze My Skills</a> <span>→</span>
+      <button class="main-analyze-btn" onclick="analyzeSkills()">
+  ✨ Analyze My Skills →
+    </button> 
     </button>
   </div>
 
@@ -129,10 +131,57 @@ function logout() {
 </script>
 <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  
+  <script>
+    let skills = [];
+
+function addSkill() {
+    const input = document.getElementById("customSkillInput");
+    const skill = input.value.trim();
+
+    if (skill) {
+        skills.push(skill);
+
+        const container = document.getElementById("skillsTagContainer");
+        container.innerHTML += `<span class="tag">${skill}</span>`;
+
+        input.value = "";
+    }
+}
+
+async function analyzeSkills() {
+    const jobRole = document.querySelectorAll("input")[0].value;
+
+    if (!jobRole || skills.length === 0) {
+        alert("Enter job role and skills");
+        return;
+    }
+
+    try {
+        const res = await fetch("http://localhost:5000/analyze", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                userSkills: skills,
+                jobRole: jobRole
+            })
+        });
+
+        const data = await res.json();
+
+        // 🔥 STORE RESULT (IMPORTANT)
+        localStorage.setItem("analysisResult", JSON.stringify(data));
+
+        // 🔥 GO TO RESULT PAGE
+        window.location.href = "result.html";
+
+    } catch (err) {
+        alert("Server error. Using offline mode.");
+    }
+}
+  </script>
   <!-- JS -->
 <script src="script.js"></script>
 <script src="home.js"></script>
