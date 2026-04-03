@@ -1,3 +1,8 @@
+// DARK MODE
+document.getElementById("themeToggle").onclick = () => {
+  document.body.classList.toggle("dark");
+};
+
 // LOGOUT
 function logout() {
   localStorage.clear();
@@ -9,49 +14,86 @@ function logout() {
 ========================= */
 
 async function loadProfile() {
-  try {
-    const email = localStorage.getItem("email");
+  const data = JSON.parse(localStorage.getItem("analysis"));
 
-    const res = await fetch(`http://localhost:5000/profile?email=${email}`);
-    const data = await res.json();
+  document.getElementById("name").innerText = "Student";
+  document.getElementById("email").innerText = "local@user.com";
 
-    // BASIC INFO
-    document.getElementById("name").innerText = data.name;
-    document.getElementById("email").innerText = data.email;
+  document.getElementById("nameDetail").innerText = "Student";
+  document.getElementById("emailDetail").innerText = "local@user.com";
 
-    document.getElementById("nameDetail").innerText = data.name;
-    document.getElementById("emailDetail").innerText = data.email;
-    document.getElementById("job").innerText = data.jobRole || "Not set";
+  document.getElementById("job").innerText =
+    localStorage.getItem("jobRole") || "Not set";
 
-    // AVATAR LETTER
-    document.getElementById("avatar").innerText =
-      data.name.charAt(0).toUpperCase();
+  document.getElementById("avatar").innerText = "S";
 
-    // SKILLS
-    let skillsHTML = "";
-    if (data.skills && data.skills.length > 0) {
-      data.skills.forEach(skill => {
-        skillsHTML += `<p>✔ ${skill}</p>`;
-      });
-    } else {
-      skillsHTML = "<p>No skills completed yet.</p>";
-    }
-    document.getElementById("skillsContainer").innerHTML = skillsHTML;
-
-    // GOALS (based on job role)
-    let goalsHTML = "";
-    if (data.goals && data.goals.length > 0) {
-      data.goals.forEach(goal => {
-        goalsHTML += `<p>🎯 ${goal}</p>`;
-      });
-    } else {
-      goalsHTML = "<p>Set your dream job to see goals.</p>";
-    }
-    document.getElementById("goalsContainer").innerHTML = goalsHTML;
-
-  } catch (err) {
-    console.log(err);
+  // skills (completed = matched skills)
+  let skillsHTML = "";
+  if (data && data.matchedSkills.length > 0) {
+    data.matchedSkills.forEach(skill => {
+      skillsHTML += `<p>✔ ${skill}</p>`;
+    });
+  } else {
+    skillsHTML = "<p>No skills yet.</p>";
   }
+
+  document.getElementById("skillsContainer").innerHTML = skillsHTML;
+
+  // goals
+  let goalsHTML = "";
+  if (data && data.missingSkills.length > 0) {
+    data.missingSkills.forEach(skill => {
+      goalsHTML += `<p>🎯 Learn ${skill}</p>`;
+    });
+  } else {
+    goalsHTML = "<p>No goals yet.</p>";
+  }
+
+  document.getElementById("goalsContainer").innerHTML = goalsHTML;
 }
 
 loadProfile();
+
+/* =========================
+   PROGRESS TRACKER
+========================= */
+
+const data = JSON.parse(localStorage.getItem("analysis"));
+
+if (data && data.missingSkills) {
+
+  const skills = data.missingSkills.map(skill => ({
+    name: skill,
+    completed: false
+  }));
+
+  function renderSkills() {
+    let container = document.getElementById("skillsList");
+    container.innerHTML = "";
+
+    skills.forEach((skill, index) => {
+      container.innerHTML += `
+        <div>
+          <input type="checkbox" onchange="toggleSkill(${index})">
+          ${skill.name}
+        </div>
+      `;
+    });
+  }
+
+  function toggleSkill(index) {
+    skills[index].completed = !skills[index].completed;
+    updateProgress();
+  }
+
+  function updateProgress() {
+    let completed = skills.filter(s => s.completed).length;
+    let total = skills.length;
+
+    let percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+    document.getElementById("percent").innerText = percent + "%";
+  }
+
+  renderSkills();
+}

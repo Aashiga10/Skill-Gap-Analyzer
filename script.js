@@ -180,5 +180,33 @@ db.collection("dashboard").doc("user1").onSnapshot(doc => {
 const toggleBtn = document.getElementById("themeToggle");
 
 
+// analyzebutton js
 
+async function analyzeSkills() {
+  const jobRole = document.querySelector("input[placeholder='Search for a job role...']").value;
 
+  const skills = [];
+  document.querySelectorAll("#skillsTagContainer span").forEach(tag => {
+    skills.push(tag.innerText);
+  });
+
+  const res = await fetch("http://localhost:5000/analyze", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      userSkills: skills,
+      jobRole: jobRole
+    })
+  });
+
+  const data = await res.json();
+
+  // ✅ SAVE DATA LOCALLY
+  localStorage.setItem("analysis", JSON.stringify(data));
+  localStorage.setItem("jobRole", jobRole);
+
+  // 👉 GO TO RESULT PAGE
+  window.location.href = "result.html";
+}

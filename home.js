@@ -9,6 +9,7 @@ function logout() {
   window.location.href = "login.html";
 }
 
+
 /* =========================
    FETCH FROM BACKEND
 ========================= */
@@ -17,7 +18,7 @@ function logout() {
 async function loadDashboard() {
   try {
     const email = localStorage.getItem("email");
-    const res = await fetch(`http://localhost:5000/dashboard?email=${email}`);;
+    
     const data = await res.json();
 
     // Update UI
@@ -124,3 +125,33 @@ db.collection("users").doc("user1").onSnapshot(doc => {
 });
 
 const toggleBtn = document.getElementById("themeToggle");
+
+//  analyze function
+async function analyzeSkills() {
+  const jobRole = document.querySelector("input").value;
+
+  const skills = [];
+  document.querySelectorAll("#skillsTagContainer span").forEach(tag => {
+    skills.push(tag.innerText);
+  });
+
+  const res = await fetch("http://localhost:5000/analyze", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      userSkills: skills,
+      jobRole: jobRole
+    })
+  });
+
+  const data = await res.json();
+
+  // ✅ SAVE DATA HERE (VERY IMPORTANT)
+  localStorage.setItem("analysis", JSON.stringify(data));
+  localStorage.setItem("jobRole", jobRole);
+
+  // 👉 go to result page
+  window.location.href = "result.html";
+}

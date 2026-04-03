@@ -91,7 +91,8 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
     <script>
-        const skills = ["JavaScript", "React", "Node.js"]; // match backend keys
+        const data = JSON.parse(localStorage.getItem("analysis"));
+        const skills = data.missingSkills;
 
         skills.forEach(skill => {
             fetch("http://localhost:5000/courses/" + skill)
